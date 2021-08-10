@@ -1,0 +1,128 @@
+<html>
+<head>
+  <style media="screen">
+    html{
+        width: 100%;
+        font-family: PingFang SC,Hiragino Sans GB,Arial,Microsoft YaHei,Verdana,Roboto,Noto,Helvetica Neue,sans-serif;
+    }
+    ::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+  }
+    body{
+      text-align:center;
+    }
+    h1.title{
+      margin-top:25px;
+    }
+    tr.now{
+      background-color: lightgreen;
+    }
+    tr{
+      font-size: 1.2rem;
+      background-color: #fff;
+    }
+    tr>td{
+      text-align:center;
+      padding: 0.5rem 10rem;
+    }
+    div.scroll{
+      margin-top: 50px;
+      overflow: auto;
+      height: 650px;
+    }
+    div.timer{
+      margin-top: 25px;
+      height:20%;
+    }
+    div.scroll>table{
+      position: sticky;
+    }
+    div.t{
+      font-size: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title">灰谷福利怪</h1>
+  <center>
+    <div class="timer">
+      <h2>距離下次出生時間還有</h2>
+      <div class="t">
+    </div>
+    <div class="scroll">
+  <table>
+    <thead>
+      <tr><th>次數</th><th>時間</th></tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+  </div>
+  </center>
+</body>
+</html>
+<script>
+  const origin_timestamp = 	1627706700 * 1000
+
+  let t = origin_timestamp
+
+  today = []
+
+  function formatUnit(n){
+    return n < 10 ? "0" + n : n;
+  }
+  function dateformat(timestamp){
+    var date = new Date(timestamp);
+    return date.getDate()+
+    "/"+formatUnit(date.getMonth()+1)+
+    "/"+formatUnit(date.getFullYear())+
+    " "+formatUnit(date.getHours())+
+    ":"+formatUnit(date.getMinutes())+
+    ":"+formatUnit(date.getSeconds());
+  }
+  main()
+  timer()
+  function main(){
+    document.querySelector('table>tbody').innerHTML = ``
+
+    nowDate = new Date(Date.now())
+    while(new Date(t).getDate() != nowDate.getDate() || new Date(t).getMonth() != nowDate.getMonth()){
+      t += 60*75*1000
+    }
+
+    while(new Date(t).getDate() == nowDate.getDate() && new Date(t).getMonth() == nowDate.getMonth()){
+      today.push(t)
+      t += 60*75*1000
+
+    }
+    today.push(t)
+    t += 60*75*1000
+
+    for(let i = 0; i < today.length; i ++){
+      document.querySelector('table>tbody').innerHTML += `<tr><td>${i+1}</td><td>${dateformat(today[i])}</td></tr>`
+    }
+  }
+
+
+  function timer(){
+    nexttime = null
+    for(let i = 0 ; i < today.length; i ++){
+      if(Date.now() < today[i]){
+        nexttime = today[i]
+        document.querySelectorAll('table>tbody>tr')[i].classList.add('now')
+        break
+      }
+    }
+    totalseconds = Math.floor((nexttime - Date.now()) / 1000)
+    hours = Math.floor(totalseconds/60/60)
+    minutes = Math.floor((totalseconds/60)%60)
+    seconds = totalseconds %60
+    let msg = `${formatUnit(hours)} 小時 ${formatUnit(minutes)} 分鐘 ${formatUnit(seconds)} 秒`
+    document.querySelector('div.t').innerHTML = msg
+  }
+  setInterval(function(){
+    timer()
+  }, 500)
+</script>
