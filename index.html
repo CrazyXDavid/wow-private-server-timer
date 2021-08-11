@@ -105,12 +105,14 @@
     }
   }
 
-
   function timer(){
     nexttime = null
     for(let i = 0 ; i < today.length; i ++){
       if(Date.now() < today[i]){
         nexttime = today[i]
+        if(document.querySelectorAll('table>tbody>tr')[i].classList.contains('now')){
+          document.querySelectorAll('table>tbody>tr')[i].classList.remove('now')
+        }
         document.querySelectorAll('table>tbody>tr')[i].classList.add('now')
         break
       }
