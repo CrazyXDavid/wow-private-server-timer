@@ -85,6 +85,7 @@
   }
   main()
   timer()
+  document.querySelector('.now').scrollIntoView()
   function main(){
     document.querySelector('table>tbody').innerHTML = ``
 
@@ -105,7 +106,6 @@
       document.querySelector('table>tbody').innerHTML += `<tr><td>${i+1}</td><td>${dateformat(today[i])}</td></tr>`
     }
     
-    document.querySelector('.now').scrollIntoView()
   }
 
   function timer(){
