@@ -1,5 +1,6 @@
 <html>
 <head>
+  <title>灰谷福利怪 - 出生時間</title>
   <style media="screen">
     html{
         width: 100%;
@@ -103,6 +104,8 @@
     for(let i = 0; i < today.length; i ++){
       document.querySelector('table>tbody').innerHTML += `<tr><td>${i+1}</td><td>${dateformat(today[i])}</td></tr>`
     }
+    
+    document.querySelector('.now').scrollIntoView()
   }
 
   function timer(){
